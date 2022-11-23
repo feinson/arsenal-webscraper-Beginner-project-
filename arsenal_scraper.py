@@ -8,6 +8,19 @@ class ArsenalScraper:
     site = "https://www.arsenal.com/"
 
     def __init__(self, category):
+        '''The function initialises the class and takes in a category as a parameter and then uses that category to make a request to
+        the arsenal website. 
+        
+        The function then assigns the response to the response attribute of the class. 
+        
+        The function also increments the number of categories by 1.
+        
+        Parameters
+        ----------
+        category
+            the category of the page you want to scrape.
+        
+        '''
 
         self.category = category
         self.response = requests.get(f"https://www.arsenal.com/{self.category}/players")
@@ -15,6 +28,14 @@ class ArsenalScraper:
     
 
     def get_player_links(self):
+        '''It produces a list of two-long sublists. Each sublist contains the link to a player profile, as 
+        well as their position category.
+        
+        Returns
+        -------
+            A list of lists. Each list contains the category title and the link to the player's page.
+        
+        '''
         soup = BeautifulSoup(self.response.content, "html.parser")
         player_block = soup.find("div", {"id": "block-arsenal-main-content"})
 
@@ -36,6 +57,15 @@ class ArsenalScraper:
         return output_list
 
     def link_to_information(self, input_list):
+        '''It takes a list of information about a player, and adds to it the player's name, squad number,
+        and date of birth. It also downloads the player's photo and saves it in a folder
+        
+        Parameters
+        ----------
+        input_list
+            a list of the player's name, link, and position
+        
+        '''
         try:
             sub_response = requests.get(input_list[1])
             soup = BeautifulSoup(sub_response.content, "html.parser")
@@ -69,6 +99,11 @@ class ArsenalScraper:
 
 # Categories: men, academy, women
 def which_to_scrape(*categories_to_scrape):
+    '''It takes in a list of categories, which should be any combination of "men", "women", "academy".
+    It creates a folder for each category, in which to store the photos of the players. It then scrapes the squad data for each
+    category from the Arsenal website, and saves the tabular data as a csv file, as well as saving the photos to the relevant folder.
+    
+    '''
 
     for category in categories_to_scrape:
 
@@ -84,4 +119,4 @@ def which_to_scrape(*categories_to_scrape):
         data.columns = ["Category", "Link to Profile Page", "Name", "Squad Number", "D.O.B"]
         data.to_csv(f"./data_folder/{category}_squad.csv")
 
-which_to_scrape("men","academy")
+which_to_scrape("women","men","academy")
