@@ -156,4 +156,4 @@ def scrape_categories(*categories_to_scrape):
         data.to_csv(f"./data_folder/{category}_squad.csv")
 
 if __name__ == "__main__":
-    scrape_categories("women")
+    scrape_categories("men","academy","women")
