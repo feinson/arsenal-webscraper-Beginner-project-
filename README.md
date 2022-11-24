@@ -5,3 +5,6 @@ This script can be used to scrape information on the Arsenal football squad. It 
 The script can be customised to only scrape data on a selection of the categories. This can be done by changing the arguments in the final function call. For example, to just scrape data on the men and women's team, the final line should be "which_to_scrape("men","women")".
 
 All data is put into the "data_folder" folder.
+
+## Unit testing
+This repository also include a unit testing script which tests eachs of the methods and functions in 'arsenal_scraper.py'
